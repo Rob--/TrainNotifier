@@ -8,7 +8,7 @@ public class OutboundJourney {
 
     private String time;
     private String type;
-    private Map<String, Object> additionalProperties = new HashMap<String, Object>();
+    private Map<String, Object> additionalProperties = new HashMap();
 
     /**
      * 

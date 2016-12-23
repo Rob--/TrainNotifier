@@ -13,7 +13,7 @@ public class API {
     private List<JourneyTicket> journeyTickets = null;
     private List<RouteRestriction> routeRestrictions = null;
     private BookingHorizon bookingHorizon;
-    private Map<String, Object> additionalProperties = new HashMap<String, Object>();
+    private final Map<String, Object> additionalProperties = new HashMap();
 
     /**
      * 

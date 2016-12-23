@@ -14,7 +14,7 @@ import io.github.rob__.trainnotifier.Trains.TrainsFragment;
 
 public class MainActivity extends FragmentActivity {
 
-    Fragment[] fragments = new Fragment[] {
+    private final Fragment[] fragments = new Fragment[] {
         SearchFragment.newInstance(),
         TrainsFragment.newInstance()
     };

@@ -15,7 +15,7 @@ public class Query {
     private OutboundJourney outboundJourney;
     private List<Railcard> railcards = null;
     private Boolean showCancelledTrains;
-    private Map<String, Object> additionalProperties = new HashMap<String, Object>();
+    private Map<String, Object> additionalProperties = new HashMap();
 
     /**
      * 

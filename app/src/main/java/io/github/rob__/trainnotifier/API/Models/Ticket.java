@@ -27,7 +27,7 @@ public class Ticket {
     private Boolean reservationRequired;
     private String fareCategory;
     private Boolean isPromotional;
-    private Map<String, Object> additionalProperties = new HashMap<String, Object>();
+    private Map<String, Object> additionalProperties = new HashMap();
 
     /**
      * 

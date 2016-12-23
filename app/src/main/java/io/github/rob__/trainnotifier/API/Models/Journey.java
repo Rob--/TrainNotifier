@@ -16,7 +16,7 @@ public class Journey {
     private List<Leg> legs = null;
     private String walkUpFareCategory;
     private String journeyStatus;
-    private Map<String, Object> additionalProperties = new HashMap<String, Object>();
+    private Map<String, Object> additionalProperties = new HashMap();
 
     /**
      * 

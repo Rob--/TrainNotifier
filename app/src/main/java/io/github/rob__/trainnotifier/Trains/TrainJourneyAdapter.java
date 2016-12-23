@@ -20,8 +20,6 @@ import io.github.rob__.trainnotifier.CustomListeners;
 import io.github.rob__.trainnotifier.R;
 import io.github.rob__.trainnotifier.Utils;
 
-import static io.github.rob__.trainnotifier.Utils.getFormattedTime;
-
 public class TrainJourneyAdapter extends RecyclerView.Adapter<TrainJourneyAdapter.ViewHolder> {
 
     private static CustomListeners.JourneyClickListener clickListener;
@@ -42,12 +40,12 @@ public class TrainJourneyAdapter extends RecyclerView.Adapter<TrainJourneyAdapte
         @BindView(R.id.tvListRoute) public TextView tvRoute;
         @BindView(R.id.tvListChanges) public TextView tvChanges;
         @BindView(R.id.tvListDuration) public TextView tvDuration;
-        View view;
+        final View view;
 
         /* register an on click listener for the delete icon */
         @OnClick(R.id.ivDelete) void submit(){
             int position = getAdapterPosition();
-            clickListener.journeyClicked(view, journeys[position], position);
+            clickListener.journeyClicked(journeys[position], position);
         }
 
         public ViewHolder(View v) {
@@ -60,8 +58,8 @@ public class TrainJourneyAdapter extends RecyclerView.Adapter<TrainJourneyAdapte
             tvArrive.setText(time);
             tvArriveStation.setText(station);
 
-            if(platform != null && !platform.equals(null)){
-                tvArrivePlatform.setText("Plat." + platform);
+            if(platform != null && !platform.isEmpty()){
+                tvArrivePlatform.setText(context.getString(R.string.platform, platform));
             } else {
                 tvArrivePlatform.setText("");
             }
@@ -71,15 +69,15 @@ public class TrainJourneyAdapter extends RecyclerView.Adapter<TrainJourneyAdapte
             tvDepart.setText(time);
             tvDepartStation.setText(station);
 
-            if(platform != null && !platform.equals(null)){
-                tvDepartPlatform.setText("Plat." + platform);
+            if(platform != null && !platform.isEmpty()){
+                tvDepartPlatform.setText(context.getString(R.string.platform, platform));
             } else {
                 tvDepartPlatform.setText("");
             }
         }
 
         public void setRoute(String station){
-            tvRoute.setText("Train to " + station);
+            tvRoute.setText(context.getString(R.string.route, station));
         }
 
         public void setDuration(String departTime, String arriveTime){
@@ -88,9 +86,9 @@ public class TrainJourneyAdapter extends RecyclerView.Adapter<TrainJourneyAdapte
 
         public void setChanges(int changes){
             if(changes == 0) {
-                tvChanges.setText("Direct");
+                tvChanges.setText(context.getString(R.string.direct));
             } else {
-                tvChanges.setText(String.valueOf(changes) + (changes > 1 ? " changes" : " change"));
+                tvChanges.setText(context.getResources().getQuantityString(R.plurals.changes, changes));
             }
         }
 

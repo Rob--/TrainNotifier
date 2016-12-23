@@ -11,7 +11,7 @@ public class Fare {
     private Integer numberOfPassengers;
     private String fareType;
     private String passengerType;
-    private Map<String, Object> additionalProperties = new HashMap<String, Object>();
+    private Map<String, Object> additionalProperties = new HashMap();
 
     /**
      * 

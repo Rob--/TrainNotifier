@@ -1,6 +1,5 @@
 package io.github.rob__.trainnotifier.Search;
 
-import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,7 +16,6 @@ public class RecentSearchAdapter extends RecyclerView.Adapter<RecentSearchAdapte
 
     private static CustomListeners.RecentSearchListener clickListener;
     private static String[][] recentSearches;
-    private static Context context;
 
     public static class ViewHolder extends RecyclerView.ViewHolder{
         @BindView(R.id.tvRecentFrom) public TextView tvFrom;
@@ -32,16 +30,27 @@ public class RecentSearchAdapter extends RecyclerView.Adapter<RecentSearchAdapte
                 @Override
                 public void onClick(View view) {
                     int position = getAdapterPosition();
-                    clickListener.recentSearchClicked(view, recentSearches[position], position);
+                    clickListener.recentSearchClicked(recentSearches[position]);
                 }
             });
         }
+
+        public void setDeparture(String stationCode){
+            tvFrom.setText(stationCode);
+        }
+
+        public void setArrival(String stationCode){
+            tvTo.setText(stationCode);
+        }
+
+        public void setRoute(String arrivalCode, String departureCode){
+            tvRoute.setText(Utils.getRoute(arrivalCode, departureCode));
+        }
     }
 
-    public RecentSearchAdapter(String[][] recentSearches, Context context, CustomListeners.RecentSearchListener clickListener) {
-        this.recentSearches = recentSearches;
-        this.context = context;
-        this.clickListener = clickListener;
+    public RecentSearchAdapter(String[][] recentSearches, CustomListeners.RecentSearchListener clickListener) {
+        RecentSearchAdapter.recentSearches = recentSearches;
+        RecentSearchAdapter.clickListener = clickListener;
     }
 
     @Override
@@ -57,9 +66,9 @@ public class RecentSearchAdapter extends RecyclerView.Adapter<RecentSearchAdapte
         String originCode = Utils.codeFromStation(recentSearch[0]);
         String destinationCode = Utils.codeFromStation(recentSearch[1]);
 
-        holder.tvFrom.setText(originCode);
-        holder.tvTo.setText(destinationCode);
-        holder.tvRoute.setText(Utils.getRoute(originCode, destinationCode));
+        holder.setDeparture(originCode);
+        holder.setArrival(destinationCode);
+        holder.setRoute(originCode, destinationCode);
     }
 
     @Override

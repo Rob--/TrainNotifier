@@ -8,7 +8,7 @@ public class Railcard {
 
     private String code;
     private Integer count;
-    private Map<String, Object> additionalProperties = new HashMap<String, Object>();
+    private Map<String, Object> additionalProperties = new HashMap();
 
     /**
      * 

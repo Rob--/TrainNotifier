@@ -9,7 +9,7 @@ public class RouteRestriction {
     private String code;
     private String name;
     private String description;
-    private Map<String, Object> additionalProperties = new HashMap<String, Object>();
+    private Map<String, Object> additionalProperties = new HashMap();
 
     /**
      * 

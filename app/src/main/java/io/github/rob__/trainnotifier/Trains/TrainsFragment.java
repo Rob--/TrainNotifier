@@ -23,7 +23,7 @@ import static android.view.View.VISIBLE;
 
 public class TrainsFragment extends Fragment implements TrainsView, CustomListeners.JourneyClickListener, CustomListeners.TrainSavedListener {
 
-    TrainsPresenter presenter;
+    private TrainsPresenter presenter;
     @BindView(R.id.rvSavedJourneys) RecyclerView rvSavedJourneys;
     @BindView(R.id.tvNoSavedJourneys) TextView tvNoSavedJourneys;
 
@@ -61,7 +61,7 @@ public class TrainsFragment extends Fragment implements TrainsView, CustomListen
     }
 
     @Override
-    public void journeyClicked(View v, final Journey journey, final int position){
+    public void journeyClicked(final Journey journey, final int position){
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
         builder.setTitle("Remove this train?");
 

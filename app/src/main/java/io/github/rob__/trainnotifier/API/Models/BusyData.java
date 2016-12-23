@@ -8,7 +8,7 @@ import java.util.Map;
 public class BusyData {
 
     private List<Object> coaches = null;
-    private Map<String, Object> additionalProperties = new HashMap<String, Object>();
+    private Map<String, Object> additionalProperties = new HashMap();
 
     /**
      * 

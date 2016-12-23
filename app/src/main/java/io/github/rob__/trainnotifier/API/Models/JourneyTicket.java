@@ -11,7 +11,7 @@ public class JourneyTicket {
     private Integer ticketId;
     private String seatAvailabilityCode;
     private List<String> deliveryOptions = null;
-    private Map<String, Object> additionalProperties = new HashMap<String, Object>();
+    private Map<String, Object> additionalProperties = new HashMap();
 
     /**
      * 

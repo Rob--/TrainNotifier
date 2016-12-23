@@ -16,10 +16,10 @@ public class TrainlineAPI {
 
     private static final String URL = "https://api.thetrainline.com";
 
-    Retrofit retrofit = new Retrofit
+    private final Retrofit retrofit = new Retrofit
             .Builder().baseUrl(URL).addConverterFactory(GsonConverterFactory.create()).build();
 
-    TrainlineInterface api = retrofit.create(TrainlineInterface.class);
+    private final TrainlineInterface api = retrofit.create(TrainlineInterface.class);
 
     public interface TrainlineInterface {
         @Headers({"X-Api-Version: 2.0", "X-Platform-Type: Android", "X-Consumer-Version: 930"})

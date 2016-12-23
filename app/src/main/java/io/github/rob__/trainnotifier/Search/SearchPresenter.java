@@ -9,31 +9,34 @@ import java.util.List;
 import io.github.rob__.trainnotifier.API.Models.API;
 import io.github.rob__.trainnotifier.API.TrainlineAPI;
 import io.github.rob__.trainnotifier.CustomListeners;
+import io.github.rob__.trainnotifier.R;
 import io.github.rob__.trainnotifier.Utils;
 import retrofit2.Response;
 
-public class SearchPresenter {
+class SearchPresenter {
 
-    private String TAG = "SearchPresenter";
-    private SearchView view;
-    private TrainlineAPI api;
+    private final String TAG = "SearchPresenter";
+    private final SearchView view;
+    private final TrainlineAPI api;
+    private final Context context;
 
-    public SearchPresenter(SearchView view){
+    public SearchPresenter(SearchView view, Context context){
         this.view = view;
         this.api = new TrainlineAPI();
+        this.context = context;
     }
 
     public void getRecentSearches(Context context){
         String[][] recentSearches = Utils.getRecentSearches(context);
 
-        /* recentSearches will be a fixed size of 5, the element will be null if it doesn not
+        /* recentSearches will be a fixed size of 5, the element will be null if it does not
            contain a recent search so we need to remove recent searches to ensure the adapter
            doesn't create a view for a null search result */
 
         List<String[]> list = new ArrayList<>();
-        for(int i = 0; i < recentSearches.length; i++){
-            if(recentSearches[i][0] != null && recentSearches[i][1] != null){
-                list.add(recentSearches[i]);
+        for (String[] recentSearch : recentSearches) {
+            if (recentSearch[0] != null && recentSearch[1] != null) {
+                list.add(recentSearch);
             }
         }
 
@@ -44,17 +47,21 @@ public class SearchPresenter {
         view.findTrainsClicked();
     }
 
+    public void swapSearchInput(){
+        view.swapSearchInput();
+    }
+
     public void getJourneys(String from, String to) {
         api.getJourneys(Utils.buildQuery(from, to), new CustomListeners.TrainlineCallback() {
             @Override
             public void onResponse(Response<API> response) {
-                Log.d(TAG, "getJourneys API call successful");
+                Log.d(TAG, context.getString(R.string.requestSuccess, context.getString(R.string.endpointJourneys)));
                 view.showJourneys(response.body());
             }
 
             @Override
             public void onFailure(Throwable t) {
-                Log.d(TAG, "getJourneys API call failed");
+                Log.d(TAG, context.getString(R.string.requestFail, context.getString(R.string.endpointJourneys)));
                 view.failedGettingJourneys();
                 t.printStackTrace();
             }

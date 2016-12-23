@@ -20,7 +20,7 @@ public class Leg {
     private Boolean isCancelled;
     private List<String> finalDestinations = null;
     private BusyData busyData;
-    private Map<String, Object> additionalProperties = new HashMap<String, Object>();
+    private Map<String, Object> additionalProperties = new HashMap();
 
     /**
      * 

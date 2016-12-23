@@ -26,17 +26,22 @@ import static android.app.PendingIntent.FLAG_UPDATE_CURRENT;
 
 public class NotificationService extends Service{
 
-    public String DISMISS_EVENT_NAME = "dismiss_event";
-    public String TAG = "NotificationService";
+    private final String DISMISS_EVENT_NAME = "dismiss_event";
+    private final String TAG = "NotificationService";
 
-    NotificationManager manager;
-    NotificationCompat.Builder builder;
-    long updateInterval = 1000 * 10;
-    TrainlineAPI api = new TrainlineAPI();
-    Handler handler = new Handler();
-    HashMap<Integer, Journey> journeys = new HashMap<>();
+    private NotificationManager manager;
+    private NotificationCompat.Builder builder;
+    private final long updateInterval = 1000 * 10;
+    private final TrainlineAPI api = new TrainlineAPI();
+    private final Handler handler = new Handler();
 
-    NotificationDismissReceiver dismissReceiver = new NotificationDismissReceiver();
+    private final HashMap<Integer, Journey> journeys = new HashMap<>();
+
+    /* uses journey ids to track notification text, if a change is detected we add a vibration
+       to the notification */
+    private final HashMap<Integer, String> notificationText = new HashMap<>();
+
+    private final NotificationDismissReceiver dismissReceiver = new NotificationDismissReceiver();
     public class NotificationDismissReceiver extends BroadcastReceiver {
         @Override
         public void onReceive(Context context, Intent intent){
@@ -81,7 +86,7 @@ public class NotificationService extends Service{
         return Service.START_NOT_STICKY;
     }
 
-    public void pollForUpdates(final Query query, final Journey savedJourney){
+    private void pollForUpdates(final Query query, final Journey savedJourney){
         /* attempt to get the journey, if it's null it means it was dismissed and we no
            longer need to poll for it */
         Journey journey = journeys.get(savedJourney.getId());
@@ -124,7 +129,7 @@ public class NotificationService extends Service{
         });
     }
 
-    public void postDelayed(final Query query, final Journey savedJourney){
+    private void postDelayed(final Query query, final Journey savedJourney){
         handler.postDelayed(new Runnable() {
             @Override
             public void run() {
@@ -133,10 +138,13 @@ public class NotificationService extends Service{
         }, updateInterval);
     }
 
-    public void dismissNotification(Journey journey){
+    private void dismissNotification(Journey journey){
         journeys.remove(journey.getId());
         Log.d(TAG, "Dismiss called for #" + String.valueOf(journey.getId()));
         manager.cancel(journey.getId());
+
+
+        Log.d(TAG, "Journeys left to poll for: " + String.valueOf(journeys.size()));
 
         /* if we've removed the last journey, halt the service */
         if(journeys.size() == 0){
@@ -144,7 +152,7 @@ public class NotificationService extends Service{
         }
     }
 
-    public void buildNotification(final Journey journey, int savedJourneyId){
+    private void buildNotification(final Journey journey, int savedJourneyId){
         final Journey savedJourney = journeys.get(savedJourneyId);
         if(savedJourney == null) return;
 
@@ -159,15 +167,21 @@ public class NotificationService extends Service{
 
         /* check every leg/change of the journey */
         for(Leg l : journey.getLegs()){
+            /* check if train is cancelled */
             if(l.getIsCancelled()){
-                text += "Train from " + l.getOrigin().getStationCode() + " cancelled!";
+                text += "Train from " + Utils.stationFromCode(l.getOrigin().getStationCode()) + " cancelled!";
+            }
+
+            /* check if there's a generic "Delayed" with no given expected time */
+            if(l.getOrigin().getRealTimeStatus().equals("Delayed")){
+             //   text += "Train from " + Utils.stationFromCode(l.getOrigin().getStationCode()) + " is delayed!";
             }
         }
 
         /* check train delay, will return '' if there is no delay */
         String delay = Utils.getDelay(journey);
         if(!delay.equals("")){
-            text += "Train is delayed by " + delay;
+            text += "Train is delayed by " + delay + " (exp. " + Utils.getFormattedTime(savedJourney.getDepartureDateTime()) + ")";
         }
 
         /* if our text hasn't changed, the train is as scheduled */
@@ -178,14 +192,26 @@ public class NotificationService extends Service{
         dismissIntent.putExtra("journey", Utils.journeyToJson(savedJourney));
 
         /* create the pending intent for the notification */
-        PendingIntent dissmissPendingIntent = PendingIntent.getBroadcast(this, savedJourney.getId(), dismissIntent, FLAG_UPDATE_CURRENT);
+        PendingIntent dismissPendingIntent = PendingIntent.getBroadcast(this, savedJourney.getId(), dismissIntent, FLAG_UPDATE_CURRENT);
 
         builder = new NotificationCompat.Builder(this)
                 .setSmallIcon(R.drawable.ic_clear_black_48px)
                 .setOngoing(true)
-                .addAction(R.drawable.ic_clear_black_48px, "Dismiss", dissmissPendingIntent)
-                .setSubText(Utils.getRoute(savedJourney.getOrigin(), savedJourney.getDestination()))
-                .setContentTitle(text);
+                .addAction(R.drawable.ic_clear_black_48px, "Dismiss", dismissPendingIntent)
+                .setSubText(savedJourney.getOrigin() + " to " + savedJourney.getDestination())
+                .setContentTitle("Train to " + Utils.stationFromCode(savedJourney.getDestination()))
+                .setContentText(text)
+                .setPriority(NotificationCompat.PRIORITY_HIGH);
+
+        /* if the last stored version of our notification text is null it means we haven't saved it
+           and therefore haven't shown a notification - so we save the text and vibrate with the
+           the notification, we also do this if the text content has changed so the user can be
+           alerted */
+        String lastNotificationText = notificationText.get(savedJourneyId);
+        if(lastNotificationText == null || !lastNotificationText.equals(text)){
+            builder.setVibrate(new long[] { 0, 250, 500, 250 });
+            notificationText.put(savedJourneyId, text);
+        }
 
         /* use the manager to update the current notification */
         manager.notify(savedJourneyId, builder.build());

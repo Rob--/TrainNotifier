@@ -31,7 +31,9 @@ import static android.view.View.VISIBLE;
 
 public class SearchFragment extends Fragment implements SearchView, CustomListeners.JourneyClickListener, CustomListeners.RecentSearchListener {
 
-    SearchPresenter presenter;
+    private SearchPresenter presenter;
+    private CustomListeners.TrainSavedListener trainSavedListener;
+
     @BindView(R.id.etTo) AutoCompleteTextView etTo;
     @BindView(R.id.etFrom) AutoCompleteTextView etFrom;
     @BindView(R.id.rvSearchResults) RecyclerView rvSearchResults;
@@ -40,10 +42,14 @@ public class SearchFragment extends Fragment implements SearchView, CustomListen
     @BindView(R.id.pbLoadingResults) ProgressBar pbLoadingResults;
     @BindView(R.id.tvLoadingText) TextView tvLoadingText;
     @BindView(R.id.tvSubLoadingText) TextView tvSubLoadingText;
-    CustomListeners.TrainSavedListener trainSavedListener;
+    @BindView(R.id.tvNoRecentSearches) TextView tvNoRecentSearches;
 
-    @OnClick(R.id.btnFindTrains) void submit(){
+    @OnClick(R.id.btnFindTrains) void btnSubmit(){
         presenter.findTrains();
+    }
+
+    @OnClick(R.id.ivSwap) void ivSubmit() {
+        presenter.swapSearchInput();
     }
 
     @Override
@@ -52,7 +58,7 @@ public class SearchFragment extends Fragment implements SearchView, CustomListen
 
         ButterKnife.bind(this, v);
 
-        presenter = new SearchPresenter(this);
+        presenter = new SearchPresenter(this, getContext());
 
         ArrayAdapter<String> adapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_dropdown_item_1line, Utils.getStations());
         etTo.setAdapter(adapter);
@@ -78,6 +84,18 @@ public class SearchFragment extends Fragment implements SearchView, CustomListen
     }
 
     @Override
+    public void swapSearchInput(){
+        String from = etFrom.getText().toString();
+        String to = etTo.getText().toString();
+
+        etFrom.setText(to);
+        etTo.setText(from);
+
+        etFrom.clearFocus();
+        etTo.clearFocus();
+    }
+
+    @Override
     public void findTrainsClicked(){
         String from = etFrom.getText().toString();
         String to = etTo.getText().toString();
@@ -97,7 +115,7 @@ public class SearchFragment extends Fragment implements SearchView, CustomListen
         rvSearchResults.setVisibility(GONE);
         pbLoadingResults.setVisibility(VISIBLE);
         tvLoadingText.setVisibility(VISIBLE);
-        tvLoadingText.setText("Finding trains...");
+        tvLoadingText.setText(R.string.searchLoadingText);
         tvSubLoadingText.setVisibility(GONE);
 
         presenter.getJourneys(from, to);
@@ -105,11 +123,20 @@ public class SearchFragment extends Fragment implements SearchView, CustomListen
 
     @Override
     public void showRecentSearches(String[][] recentSearches){
-        rvRecentSearches.setAdapter(new RecentSearchAdapter(recentSearches, getContext(), this));
+        /* if there are no recent searches, manipulate the layout to show the text view
+           stating there are no recent searches instead of showing an empty recycler view */
+        if(Utils.isRecentSearchesEmpty(getContext())){
+            tvNoRecentSearches.setVisibility(View.VISIBLE);
+            rvRecentSearches.setVisibility(View.GONE);
+        } else {
+            tvNoRecentSearches.setVisibility(View.GONE);
+            rvRecentSearches.setVisibility(View.VISIBLE);
+            rvRecentSearches.setAdapter(new RecentSearchAdapter(recentSearches, this));
+        }
     }
 
     @Override
-    public void recentSearchClicked(View v, String[] recentSearch, int position){
+    public void recentSearchClicked(String[] recentSearch){
         etFrom.setText(recentSearch[0]);
         etTo.setText(recentSearch[1]);
 
@@ -132,18 +159,18 @@ public class SearchFragment extends Fragment implements SearchView, CustomListen
         rvSearchResults.setVisibility(GONE);
         pbLoadingResults.setVisibility(GONE);
         tvLoadingText.setVisibility(VISIBLE);
-        tvLoadingText.setText("Unable to find journeys.");
+        tvLoadingText.setText(R.string.searchErrorText);
         tvSubLoadingText.setVisibility(VISIBLE);
-        tvSubLoadingText.setText("This may be because the servers are down or because you have no internet connection.");
+        tvSubLoadingText.setText(R.string.searchErrorExplanationText);
     }
 
     @Override
-    public void journeyClicked(View v, final Journey journey, int position){
+    public void journeyClicked(final Journey journey, int position){
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
 
         View view = getActivity().getLayoutInflater().inflate(R.layout.confirm_dialog, null);
         builder.setView(view);
-        builder.setTitle("Poll this train?");
+        builder.setTitle(R.string.pollQuestion);
 
         String departTime = Utils.getFormattedTime(journey.getDepartureDateTime());
         TextView tvDepart = (TextView) view.findViewById(R.id.tvRowDepart);
@@ -155,22 +182,22 @@ public class SearchFragment extends Fragment implements SearchView, CustomListen
 
         String platform = journey.getLegs().get(0).getOrigin().getPlatform();
         TextView tvPlatform = (TextView) view.findViewById(R.id.tvRowPlatform);
-        if(platform != null && !platform.equals(null)){
-            tvPlatform.setText("Plat." + platform);
+        if(platform != null && !platform.isEmpty()){
+            tvPlatform.setText(getString(R.string.platform, platform));
         } else {
             tvPlatform.setText("");
         }
 
         String destinationCode = journey.getLegs().get(0).getDestination().getStationCode();
         TextView tvRoute = (TextView) view.findViewById(R.id.tvRowRoute);
-        tvRoute.setText("Train to " + Utils.stationFromCode(destinationCode));
+        tvRoute.setText(getString(R.string.route, Utils.stationFromCode(destinationCode)));
 
         int changes = journey.getLegs().size() - 1;
         TextView tvChanges = (TextView) view.findViewById(R.id.tvRowChanges);
         if(changes == 0) {
-            tvChanges.setText("Direct");
+            tvChanges.setText(R.string.direct);
         } else {
-            tvChanges.setText(String.valueOf(changes) + (changes > 1 ? " changes" : " change"));
+            tvChanges.setText(getResources().getQuantityString(R.plurals.changes, changes));
         }
 
         final AlertDialog alertDialog = builder.create();

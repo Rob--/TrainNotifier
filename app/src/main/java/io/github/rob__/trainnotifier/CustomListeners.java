@@ -8,11 +8,11 @@ import retrofit2.Response;
 
 public class CustomListeners {
     public interface RecentSearchListener {
-        void recentSearchClicked(View view, String[] recentSearch, int position);
+        void recentSearchClicked(String[] recentSearch);
     }
 
     public interface JourneyClickListener {
-        void journeyClicked(View view, Journey journey, int position);
+        void journeyClicked(Journey journey, int position);
     }
 
     public interface TrainSavedListener {

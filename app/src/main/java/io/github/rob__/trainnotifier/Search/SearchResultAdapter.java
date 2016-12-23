@@ -20,8 +20,6 @@ import io.github.rob__.trainnotifier.CustomListeners;
 import io.github.rob__.trainnotifier.R;
 import io.github.rob__.trainnotifier.Utils;
 
-import static io.github.rob__.trainnotifier.Utils.getFormattedTime;
-
 public class SearchResultAdapter extends RecyclerView.Adapter<SearchResultAdapter.ViewHolder> {
 
     private static CustomListeners.JourneyClickListener clickListener;
@@ -47,7 +45,7 @@ public class SearchResultAdapter extends RecyclerView.Adapter<SearchResultAdapte
                 @Override
                 public void onClick(View view) {
                     int position = getAdapterPosition();
-                    clickListener.journeyClicked(view, journeys.getJourneys().get(position), position);
+                    clickListener.journeyClicked(journeys.getJourneys().get(position), position);
                 }
             });
         }
@@ -61,12 +59,12 @@ public class SearchResultAdapter extends RecyclerView.Adapter<SearchResultAdapte
         }
 
         public void setRoute(String station){
-            tvRoute.setText("Train to " + station);
+            tvRoute.setText(context.getString(R.string.route, station));
         }
 
         public void setPlatform(String platform){
-            if (platform != null && !platform.equals(null)) {
-                tvPlatform.setText("Plat." + platform);
+            if (platform != null && !platform.isEmpty()) {
+                tvPlatform.setText(context.getString(R.string.platform, platform));
             } else {
                 tvPlatform.setText("");
             }
@@ -74,9 +72,9 @@ public class SearchResultAdapter extends RecyclerView.Adapter<SearchResultAdapte
 
         public void setChanges(int changes){
             if(changes == 0) {
-                tvChanges.setText("Direct");
+                tvChanges.setText(R.string.direct);
             } else {
-                tvChanges.setText(String.valueOf(changes) + (changes > 1 ? " changes" : " change"));
+                tvChanges.setText(context.getResources().getQuantityString(R.plurals.changes, changes));
             }
         }
 
@@ -92,10 +90,10 @@ public class SearchResultAdapter extends RecyclerView.Adapter<SearchResultAdapte
     }
 
     public SearchResultAdapter(API journeys, Context context, CustomListeners.JourneyClickListener clickListener) {
-        this.journeys = journeys;
-        this.context = context;
-        this.clickListener = clickListener;
-        this.animCompleted = new ArrayList<>();
+        SearchResultAdapter.journeys = journeys;
+        SearchResultAdapter.context = context;
+        SearchResultAdapter.clickListener = clickListener;
+        animCompleted = new ArrayList<>();
     }
 
     @Override

@@ -7,7 +7,7 @@ import java.util.Map;
 public class BookingHorizon {
 
     private Integer kiosk;
-    private Map<String, Object> additionalProperties = new HashMap<String, Object>();
+    private Map<String, Object> additionalProperties = new HashMap();
 
     /**
      * 

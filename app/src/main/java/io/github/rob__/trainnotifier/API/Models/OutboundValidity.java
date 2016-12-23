@@ -9,7 +9,7 @@ public class OutboundValidity {
     private Integer days;
     private Integer months;
     private Integer years;
-    private Map<String, Object> additionalProperties = new HashMap<String, Object>();
+    private Map<String, Object> additionalProperties = new HashMap();
 
     /**
      * 

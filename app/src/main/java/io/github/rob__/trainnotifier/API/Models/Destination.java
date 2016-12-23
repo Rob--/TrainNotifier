@@ -12,7 +12,7 @@ public class Destination {
     private String realTimeStatus;
     private String platform;
     private String platformStatus;
-    private Map<String, Object> additionalProperties = new HashMap<String, Object>();
+    private Map<String, Object> additionalProperties = new HashMap();
 
     /**
      * 

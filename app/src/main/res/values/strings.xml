@@ -1,3 +1,21 @@
 <resources>
     <string name="app_name">Train Notifier</string>
+
+    <string name="searchLoadingText">Finding trains...</string>
+    <string name="searchErrorText">Unable to find journeys.</string>
+    <string name="searchErrorExplanationText">This may be because the servers are down or because you have no internet connection.</string>
+
+    <string name="platform">Plat.%1$s</string>
+    <string name="route">Train to %1$s</string>
+    <string name="direct">Direct</string>
+    <string name="pollQuestion">Poll this train?</string>
+
+    <string name="requestSuccess">API call to %1$s successful!</string>
+    <string name="requestFail">API call to %1$s failed!</string>
+    <string name="endpointJourneys">getJourneys (/mobile/journeys)</string>
+
+    <plurals name="changes">
+        <item quantity="one">%1$d change</item>
+        <item quantity="other">%1$d changes</item>
+    </plurals>
 </resources>

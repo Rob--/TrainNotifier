@@ -27,12 +27,24 @@
         android:textColor="@android:color/white"
         android:layout_marginLeft="@dimen/spacingMedium" />
 
+    <TextView
+        android:text="You have no recent searches."
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/tvNoRecentSearches"
+        android:textSize="@dimen/textTitle"
+        android:textAlignment="center"
+        android:paddingTop="@dimen/spacingHuge"
+        android:layout_below="@+id/textView"
+        android:textColor="@android:color/white"
+        android:visibility="gone" />
+
     <android.support.v7.widget.RecyclerView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/rvRecentSearches"
-        android:layout_below="@+id/textView"
-        android:layout_alignParentStart="true">
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/tvNoRecentSearches">
 
     </android.support.v7.widget.RecyclerView>
 
