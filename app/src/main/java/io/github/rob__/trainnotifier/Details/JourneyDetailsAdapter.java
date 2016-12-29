@@ -7,6 +7,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.LinearInterpolator;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.util.HashMap;
@@ -61,10 +63,17 @@ public class JourneyDetailsAdapter extends RecyclerView.Adapter<RecyclerView.Vie
         @BindView(R.id.tvLegArriveTime) public TextView tvArriveTime;
         @BindView(R.id.tvLegArriveStatus) public TextView tvArriveStatus;
         @BindView(R.id.tvLegArriveStation) public TextView tvArriveStation;
+        @BindView(R.id.ivLegLive) public ImageView ivLive;
 
         public ViewHolderLeg(View v) {
             super(v);
             ButterKnife.bind(this, v);
+
+            /* the live icon will flash when the real time info is updated */
+            ivLive.setVisibility(GONE);
+
+            /* remove the real time station text as it'll be updated as needed */
+            tvDepartRealtimeStation.setVisibility(GONE);
         }
 
         public void setArrival(String time, String station){
@@ -132,10 +141,17 @@ public class JourneyDetailsAdapter extends RecyclerView.Adapter<RecyclerView.Vie
         public void setRealtimeStation(String station, int stringResource){
             tvDepartRealtimeStation.setVisibility(View.VISIBLE);
             tvDepartRealtimeStation.setText(context.getString(stringResource, station));
+            doLiveAnimation();
         }
 
         public void setDuration(String departTime, String arriveTime){
             tvDuration.setText(Utils.getTimeDifference(arriveTime, departTime));
+        }
+
+        public void doLiveAnimation(){
+            ivLive.setAlpha(0.f);
+            ivLive.setVisibility(View.VISIBLE);
+            ivLive.animate().setDuration(1000).setInterpolator(new LinearInterpolator()).alpha(1.f).start();
         }
     }
 
@@ -229,10 +245,6 @@ public class JourneyDetailsAdapter extends RecyclerView.Adapter<RecyclerView.Vie
         }
 
         holder.setDuration(bestDepartTime, bestArriveTime);
-
-        /* set it to gone, and update it if the code below that filters through the real time
-           data calls the update method */
-        holder.tvDepartRealtimeStation.setVisibility(GONE);
 
         /* we don't always have real time data */
         if(realtimeData != null && realtimeData.get(leg.getTrainId()).getIsRealTimeDataAvailable()){

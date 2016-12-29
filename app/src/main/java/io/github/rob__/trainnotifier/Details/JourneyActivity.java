@@ -6,6 +6,9 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.View;
+import android.view.ViewTreeObserver;
+import android.view.animation.DecelerateInterpolator;
 import android.widget.TextView;
 
 import java.util.HashMap;
@@ -70,6 +73,41 @@ public class JourneyActivity extends AppCompatActivity implements JourneyView{
         }
 
         tvInfo.setText(duration + ", " + changesStr);
+
+        tvRoute.post(new Runnable() {
+            @Override
+            public void run() {
+                presenter.animateElement(tvRoute);
+            }
+        });
+
+        tvInfo.post(new Runnable() {
+            @Override
+            public void run() {
+                presenter.animateElement(tvInfo);
+            }
+        });
+
+        rvLegs.post(new Runnable() {
+            @Override
+            public void run() {
+                presenter.animateElement(rvLegs);
+            }
+        });
+    }
+
+    @Override
+    public void doAnimation(View view){
+        /* if the view is the adapter, animate it coming in from the bottom */
+        if(view == rvLegs){
+            view.setTranslationY(Utils.getScreenHeight(getApplicationContext()));
+            view.animate().translationY(0).setDuration(1000).setInterpolator(new DecelerateInterpolator(1.f)).setStartDelay(350).start();
+        } else {
+            int[] location = new int[2];
+            view.getLocationOnScreen(location);
+            view.setTranslationY(-location[1] - view.getHeight());
+            view.animate().translationY(0).setDuration(350).setInterpolator(new DecelerateInterpolator(1.f)).setStartDelay(350).start();
+        }
     }
 
     @Override
@@ -77,6 +115,7 @@ public class JourneyActivity extends AppCompatActivity implements JourneyView{
         /* create a hash map that maps train id to it's realtime data */
         HashMap<String, RealtimeData> stops = new HashMap<>();
         for(RealtimeData train : realtimeData){
+            if(train.getService() == null) continue;
             String trainId = train.getService().getServiceUid();
             stops.put(trainId, train);
         }

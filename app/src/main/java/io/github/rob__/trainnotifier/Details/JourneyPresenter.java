@@ -1,6 +1,7 @@
 package io.github.rob__.trainnotifier.Details;
 
 import android.util.Log;
+import android.view.View;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,6 +21,10 @@ class JourneyPresenter {
     public JourneyPresenter(JourneyView view){
         this.api = new RealtimeAPI();
         this.view = view;
+    }
+
+    public void animateElement(View v){
+        view.doAnimation(v);
     }
 
     public void getRealtimeInfo(final Journey journey){
