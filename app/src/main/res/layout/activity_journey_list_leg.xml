@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <android.support.v7.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tvLegArriveStatus"
+        android:layout_alignStart="@+id/tvLegArriveStation"
+        android:layout_marginRight="@dimen/spacingSmallish"
+        android:layout_marginLeft="@dimen/spacingSmallish"
+        android:layout_marginTop="@dimen/spacingSmall"
+        android:layout_marginBottom="@dimen/spacingSmall">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:padding="@dimen/spacingSmallish">
+
+            <TextView
+                android:text="22:32"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/grayDark"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                android:layout_alignParentTop="true"
+                android:id="@+id/tvLegDepartTime"
+                android:paddingRight="@dimen/spacingLarge"
+                android:textAlignment="viewStart" />
+
+            <TextView
+                android:text="On time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/tvLegArriveTime"
+                android:layout_alignParentStart="true"
+                android:id="@+id/tvLegArriveStatus"
+                android:textColor="@color/grayDark"
+                android:textSize="14sp"
+                android:layout_toStartOf="@+id/tvLegDepartStation"
+                android:textAlignment="viewStart" />
+
+            <TextView
+                android:text="Currently at Blackwater"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/tvLegDepartRealtimeStation"
+                android:layout_below="@+id/tvLegDepartStation"
+                android:layout_alignStart="@+id/tvLegDepartCompany"
+                android:textSize="16sp" />
+
+            <TextView
+                android:text="Great Western Railway"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/tvLegDepartCompany"
+                android:layout_below="@+id/tvLegDepartRealtimeStation"
+                android:layout_alignStart="@+id/tvLegDepartStation" />
+
+            <TextView
+                android:text="Platform 2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/tvLegDepartPlatform"
+                android:layout_below="@+id/tvLegDepartCompany"
+                android:layout_alignStart="@+id/tvLegDepartCompany" />
+
+            <TextView
+                android:text="16 minutes"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/tvLegDuration"
+                android:layout_below="@+id/tvLegDepartPlatform"
+                android:layout_alignStart="@+id/tvLegDepartPlatform" />
+
+            <TextView
+                android:text="22:48"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/grayDark"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                android:id="@+id/tvLegArriveTime"
+                android:paddingRight="@dimen/spacingSmallish"
+                android:textAlignment="viewStart"
+                android:layout_below="@+id/tvLegDuration"
+                android:layout_alignParentStart="true"
+                android:layout_marginTop="@dimen/spacingSmallish" />
+
+            <TextView
+                android:text="On time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/tvLegDepartStatus"
+                android:textColor="@color/grayDark"
+                android:textSize="14sp"
+                android:textAlignment="viewStart"
+                android:layout_below="@+id/tvLegDepartTime"
+                android:layout_alignParentStart="true"
+                android:layout_toStartOf="@+id/tvLegDepartStation" />
+
+            <TextView
+                android:text="Farnborough North"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/tvLegDepartStation"
+                android:textSize="20sp"
+                android:textColor="@color/grayDark"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentEnd="true"
+                android:layout_toEndOf="@+id/tvLegDepartTime" />
+
+            <TextView
+                android:text="Wokingham"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/tvLegArriveStation"
+                android:textSize="20sp"
+                android:textColor="@color/grayDark"
+                android:layout_alignBaseline="@+id/tvLegArriveTime"
+                android:layout_alignBottom="@+id/tvLegArriveTime"
+                android:layout_alignStart="@+id/tvLegDuration" />
+        </RelativeLayout>
+    </android.support.v7.widget.CardView>
+
+</LinearLayout>

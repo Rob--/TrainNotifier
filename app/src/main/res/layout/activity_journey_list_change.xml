@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <android.support.v7.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tvLegArriveStatus"
+        android:layout_alignStart="@+id/tvLegArriveStation"
+        android:layout_marginLeft="@dimen/spacingSmallish"
+        android:layout_marginRight="@dimen/spacingSmallish"
+        android:layout_marginTop="@dimen/spacingSmall"
+        android:layout_marginBottom="@dimen/spacingSmall">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:padding="@dimen/spacingSmallish"
+            android:background="@color/grayFaint"
+            android:paddingLeft="@dimen/spacingSmall"
+            android:paddingRight="@dimen/spacingSmall">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_schedule_48px"
+                android:id="@+id/imageView"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentEnd="true" />
+
+            <TextView
+                android:text="13 min"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/tvChangeDuration"
+                android:layout_centerVertical="true"
+                android:layout_toStartOf="@+id/imageView"
+                android:paddingRight="@dimen/spacingTiny" />
+
+            <TextView
+                android:text="Change at Wokingham"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/tvChangeStation"
+                android:layout_centerVertical="true"
+                android:layout_alignParentStart="true"
+                android:layout_toStartOf="@+id/tvChangeDuration" />
+        </RelativeLayout>
+    </android.support.v7.widget.CardView>
+
+</LinearLayout>

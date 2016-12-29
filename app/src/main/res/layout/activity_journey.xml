@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_journey"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="io.github.rob__.trainnotifier.Details.JourneyActivity"
+    android:weightSum="1">
+
+    <TextView
+        android:text="Bracknell to Farnborough North"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/tvDetailsRoute"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentStart="true"
+        android:textSize="18sp"
+        android:layout_weight="0.46"
+        android:paddingLeft="@dimen/spacingSmallish"
+        android:paddingTop="@dimen/spacingSmallish"
+        android:layout_alignEnd="@+id/tvDetailsInfo" />
+
+    <TextView
+        android:text="1 hour 45 minutes, 2 changes"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/tvDetailsInfo"
+        android:layout_below="@+id/tvDetailsRoute"
+        android:layout_alignParentStart="true"
+        android:paddingLeft="@dimen/spacingSmallish"
+        android:layout_alignEnd="@+id/view4" />
+
+    <View
+        android:layout_width="match_parent"
+        android:background="@android:color/darker_gray"
+        android:layout_below="@+id/tvDetailsInfo"
+        android:layout_alignParentStart="true"
+        android:id="@+id/view4"
+        android:layout_margin="@dimen/spacingSmall"
+        android:layout_height="2px" />
+
+    <android.support.v7.widget.RecyclerView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/rvLegs"
+        android:layout_below="@+id/view4"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentEnd="true" />
+
+</RelativeLayout>

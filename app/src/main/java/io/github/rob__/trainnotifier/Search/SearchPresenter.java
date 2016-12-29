@@ -6,11 +6,11 @@ import android.util.Log;
 import java.util.ArrayList;
 import java.util.List;
 
-import io.github.rob__.trainnotifier.API.Models.API;
+import io.github.rob__.trainnotifier.API.Models.Mobile.JourneyData;
 import io.github.rob__.trainnotifier.API.TrainlineAPI;
 import io.github.rob__.trainnotifier.CustomListeners;
 import io.github.rob__.trainnotifier.R;
-import io.github.rob__.trainnotifier.Utils;
+import io.github.rob__.trainnotifier.Utils.Utils;
 import retrofit2.Response;
 
 class SearchPresenter {
@@ -54,7 +54,7 @@ class SearchPresenter {
     public void getJourneys(String from, String to) {
         api.getJourneys(Utils.buildQuery(from, to), new CustomListeners.TrainlineCallback() {
             @Override
-            public void onResponse(Response<API> response) {
+            public void onResponse(Response<JourneyData> response) {
                 Log.d(TAG, context.getString(R.string.requestSuccess, context.getString(R.string.endpointJourneys)));
                 view.showJourneys(response.body());
             }

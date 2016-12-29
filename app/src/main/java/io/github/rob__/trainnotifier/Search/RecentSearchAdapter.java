@@ -10,7 +10,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import io.github.rob__.trainnotifier.CustomListeners;
 import io.github.rob__.trainnotifier.R;
-import io.github.rob__.trainnotifier.Utils;
+import io.github.rob__.trainnotifier.Utils.Utils;
 
 public class RecentSearchAdapter extends RecyclerView.Adapter<RecentSearchAdapter.ViewHolder> {
 
@@ -49,13 +49,13 @@ public class RecentSearchAdapter extends RecyclerView.Adapter<RecentSearchAdapte
     }
 
     public RecentSearchAdapter(String[][] recentSearches, CustomListeners.RecentSearchListener clickListener) {
-        RecentSearchAdapter.recentSearches = recentSearches;
-        RecentSearchAdapter.clickListener = clickListener;
+        this.recentSearches = recentSearches;
+        this.clickListener = clickListener;
     }
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.recent_search, null);
+        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.fragment_search_list_recent, null);
         return new ViewHolder(v);
     }
 

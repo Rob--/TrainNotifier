@@ -40,7 +40,6 @@ public class MainActivity extends FragmentActivity {
                 ((TrainsFragment) fragments[1]).trainSaved();
             }
         });
-
     }
 
     private class CustomPagerAdapter extends FragmentPagerAdapter {

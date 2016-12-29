@@ -6,9 +6,17 @@
     <string name="searchErrorExplanationText">This may be because the servers are down or because you have no internet connection.</string>
 
     <string name="platform">Plat.%1$s</string>
+    <string name="platformNull">Plat.-</string>
+    <string name="platformFull">Platform %1$s</string>
     <string name="route">Train to %1$s</string>
+    <string name="routeFull">%1$s to %2$s</string>
     <string name="direct">Direct</string>
+    <string name="onTime">On time</string>
+    <string name="realtimeCurrently">Currently at %1$s</string>
+    <string name="realtimeTravelling">Travelling to %1$s</string>
     <string name="pollQuestion">Poll this train?</string>
+    <string name="removeQuestion">Remove this train?</string>
+    <string name="changeAt">Change at %1$s</string>
 
     <string name="requestSuccess">API call to %1$s successful!</string>
     <string name="requestFail">API call to %1$s failed!</string>

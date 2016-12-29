@@ -2,17 +2,17 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingBottom="10sp">
+    android:paddingLeft="@dimen/spacingSmallish"
+    android:paddingRight="@dimen/spacingSmallish"
+    android:paddingBottom="@dimen/spacingMedium">
 
-    <include android:id="@+id/includeTrainRow" layout="@layout/train_search_result" />
+    <include android:id="@+id/includeTrainRow" layout="@layout/fragment_search_list_result" />
 
     <Button
         android:text="Sure"
         android:layout_width="97dp"
         android:layout_height="wrap_content"
         android:id="@+id/btnConfirm"
-        android:layout_marginRight="@dimen/spacingLarge"
-        android:layout_marginEnd="@dimen/spacingLarge"
         android:layout_below="@+id/includeTrainRow"
         android:layout_alignParentEnd="true" />
 

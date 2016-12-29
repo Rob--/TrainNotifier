@@ -1,7 +1,7 @@
 package io.github.rob__.trainnotifier.API;
 
-import io.github.rob__.trainnotifier.API.Models.API;
-import io.github.rob__.trainnotifier.API.Models.Query;
+import io.github.rob__.trainnotifier.API.Models.Mobile.JourneyData;
+import io.github.rob__.trainnotifier.API.Models.Mobile.Query;
 import io.github.rob__.trainnotifier.CustomListeners;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -24,20 +24,20 @@ public class TrainlineAPI {
     public interface TrainlineInterface {
         @Headers({"X-Api-Version: 2.0", "X-Platform-Type: Android", "X-Consumer-Version: 930"})
         @POST("mobile/journeys")
-        Call<API> getJourneys(@Body Query query);
+        Call<JourneyData> getJourneys(@Body Query query);
     }
 
     public void getJourneys(Query query, final CustomListeners.TrainlineCallback callback){
-        Call<API> request = api.getJourneys(query);
+        Call<JourneyData> request = api.getJourneys(query);
 
-        request.enqueue(new Callback<API>() {
+        request.enqueue(new Callback<JourneyData>() {
             @Override
-            public void onResponse(Call<API> call, Response<API> response) {
+            public void onResponse(Call<JourneyData> call, Response<JourneyData> response) {
                 callback.onResponse(response);
             }
 
             @Override
-            public void onFailure(Call<API> call, Throwable t) {
+            public void onFailure(Call<JourneyData> call, Throwable t) {
                 callback.onFailure(t);
             }
         });

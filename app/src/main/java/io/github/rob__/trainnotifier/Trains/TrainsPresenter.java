@@ -2,7 +2,7 @@ package io.github.rob__.trainnotifier.Trains;
 
 import android.content.Context;
 
-import io.github.rob__.trainnotifier.Utils;
+import io.github.rob__.trainnotifier.Utils.Utils;
 
 class TrainsPresenter {
 

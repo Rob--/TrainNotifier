@@ -5,4 +5,10 @@
     <color name="colorAccent">#00BFA5</color>
     <color name="colorPrimaryLight">#5c6bc0</color>
     <color name="colorRedLight">#EF5350</color>
+
+    <color name="grayDark">#333333</color>
+    <color name="grayMedium">#808080</color>
+    <color name="grayLight">#757576</color>
+    <color name="grayFaint">#e5e5e4</color>
+    <color name="darkRed">#cc0000</color>
 </resources>

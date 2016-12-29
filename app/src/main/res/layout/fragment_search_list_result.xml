@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:weightSum="1"
+    android:id="@+id/llRow"
+    android:paddingBottom="@dimen/spacingTiny"
+    android:paddingLeft="@dimen/spacingSmall"
+    android:paddingRight="@dimen/spacingSmall"
+    android:paddingTop="@dimen/spacingSmall"
+    android:hardwareAccelerated="false">
+
+   <include layout="@layout/train_journey"/>
+
+    <View
+        android:layout_height="1sp"
+        android:layout_width="fill_parent"
+        android:layout_weight="0.00"
+        android:background="@android:color/darker_gray"
+        android:layout_marginTop="@dimen/spacingSmall" />
+
+</LinearLayout>
