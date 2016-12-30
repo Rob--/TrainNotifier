@@ -34,7 +34,7 @@ public class NotificationService extends Service{
     private final String TAG = "NotificationService";
 
     private NotificationManager manager;
-    private final long updateInterval = 1000 * 10;
+    private final long updateInterval = 20000;
     private final Handler handler = new Handler();
 
     private final TrainlineAPI trainlineAPI = new TrainlineAPI();
@@ -59,8 +59,8 @@ public class NotificationService extends Service{
             manager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
         }
 
-        /* if our service has been started, this function will be called regardless
-           if the service is already running */
+        /* if our service has been started, this function (onStartCommand) will
+           be called regardless if the service is already running */
 
         Log.d(TAG, "Journey id: " + String.valueOf(Utils.journeyFromJson(intent.getStringExtra("journey")).getId()));
 
@@ -196,6 +196,7 @@ public class NotificationService extends Service{
         /* create the dismiss intent */
         Intent dismissIntent = new Intent(DISMISS_EVENT_NAME);
         dismissIntent.putExtra("journey", Utils.toJson(savedJourney));
+        dismissIntent.putExtra("dismiss", true);
 
         /* create the pending intent for the notification */
         PendingIntent dismissPendingIntent = PendingIntent.getBroadcast(this, savedJourney.getId(), dismissIntent, FLAG_UPDATE_CURRENT);

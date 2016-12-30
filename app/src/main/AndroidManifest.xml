@@ -33,7 +33,9 @@
             </intent-filter>
         </receiver>
 
-        <activity android:name=".Details.JourneyActivity"></activity>
+        <activity
+            android:name=".Details.JourneyActivity"
+            android:launchMode="singleTask"></activity>
     </application>
 
 </manifest>

@@ -225,7 +225,8 @@ public class JourneyDetailsAdapter extends RecyclerView.Adapter<RecyclerView.Vie
         String departPlatform = leg.getOrigin().getPlatform();
         holder.setDeparture(departTime, departStation, departPlatform);
 
-        holder.setCompany(leg.getServiceProviderName());
+        /* set the service provider if the transport mode is a train, else set it to "Walk" */
+        holder.setCompany(leg.getTransportMode().equals("Train") ? leg.getServiceProviderName() : "Walk");
 
         String bestArriveTime = Utils.getBestArriveTime(leg.getDestination());
         String bestDepartTime = Utils.getBestDepartTime(leg.getOrigin());

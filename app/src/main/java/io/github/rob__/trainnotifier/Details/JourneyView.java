@@ -10,5 +10,6 @@ interface JourneyView {
 
     void onRealtimeReceived(List<RealtimeData> realtimeData);
     void doAnimation(View view);
+    void animationSetup(View view);
 
 }

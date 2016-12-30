@@ -7,6 +7,11 @@ import android.content.Intent;
 import android.support.v4.content.WakefulBroadcastReceiver;
 import android.util.Log;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+
 import io.github.rob__.trainnotifier.API.Models.Mobile.Journey;
 import io.github.rob__.trainnotifier.Utils.Utils;
 
@@ -38,8 +43,18 @@ public class NotificationReceiver extends WakefulBroadcastReceiver {
 
         PendingIntent pendingIntent = PendingIntent.getBroadcast(context, journey.getId(), intent, PendingIntent.FLAG_UPDATE_CURRENT);
 
-        AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
-        alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, System.currentTimeMillis() + 5000, AlarmManager.INTERVAL_DAY, pendingIntent);
+        try {
+            Date departTime = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss").parse(journey.getLegs().get(0).getOrigin().getScheduledTime());
+            Calendar c = Calendar.getInstance();
+            c.setTime(departTime);
+            /* remove 30 minutes from the time */
+            c.add(Calendar.MINUTE, -15);
+
+            AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
+            alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, c.getTimeInMillis(), AlarmManager.INTERVAL_DAY, pendingIntent);
+        } catch(ParseException e){
+            // maybe remove journey and show alert dialog
+        }
     }
 
     /**

@@ -74,24 +74,17 @@ public class JourneyActivity extends AppCompatActivity implements JourneyView{
 
         tvInfo.setText(duration + ", " + changesStr);
 
-        tvRoute.post(new Runnable() {
-            @Override
-            public void run() {
-                presenter.animateElement(tvRoute);
-            }
-        });
+        presenter.setupAnimation(tvRoute);
+        presenter.setupAnimation(tvInfo);
+        presenter.setupAnimation(rvLegs);
+    }
 
-        tvInfo.post(new Runnable() {
+    @Override
+    public void animationSetup(final View view){
+        view.post(new Runnable() {
             @Override
             public void run() {
-                presenter.animateElement(tvInfo);
-            }
-        });
-
-        rvLegs.post(new Runnable() {
-            @Override
-            public void run() {
-                presenter.animateElement(rvLegs);
+                presenter.animateElement(view);
             }
         });
     }
@@ -115,7 +108,8 @@ public class JourneyActivity extends AppCompatActivity implements JourneyView{
         /* create a hash map that maps train id to it's realtime data */
         HashMap<String, RealtimeData> stops = new HashMap<>();
         for(RealtimeData train : realtimeData){
-            if(train.getService() == null) continue;
+            if(train == null || train.getService() == null) continue;
+
             String trainId = train.getService().getServiceUid();
             stops.put(trainId, train);
         }

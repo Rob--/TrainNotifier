@@ -2,6 +2,7 @@ package io.github.rob__.trainnotifier.Details;
 
 import android.util.Log;
 import android.view.View;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,6 +24,10 @@ class JourneyPresenter {
         this.view = view;
     }
 
+    public void setupAnimation(View v){
+        view.animationSetup(v);
+    }
+
     public void animateElement(View v){
         view.doAnimation(v);
     }
@@ -32,6 +37,12 @@ class JourneyPresenter {
         final List<RealtimeData> realtimeData = new ArrayList<>();
         for(Leg leg : journey.getLegs()){
             final String trainId = leg.getTrainId();
+
+            /* probably not best practice, but due to callbacks I check whether all the real
+               time data has been collected by comparing the number of legs to the number of real
+               time data received - so I need to add null to use this logic */
+            if(trainId.isEmpty()) realtimeData.add(null);
+
             api.getRealtimeData(trainId, new CustomListeners.RealtimeCallback() {
                 @Override
                 public void onResponse(Response<RealtimeData> response) {
