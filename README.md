@@ -35,9 +35,9 @@ After searching for a journey and saving a journey to poll it for updates, it ap
 ## Polling
 
 After having saved a journey to poll, a set amount of time (e.g. 30 min) before the train is supposed to arrive at the station, polling
-will occur and notification will appear to serve the status of the train. Whenever there is a change to the status of the train, the phone
+will occur and a notification will appear to serve the status of the train. Whenever there is a change to the status of the train, the phone
 will vibrate to alert you of the change. When clicking on the notification, an activity opens up detailing the journey - real time data
-of the train is provided if it can be achieved (to tell which station the train is currently at or which station is it travelling to) as
+of the train is provided if it can be retrieved (to tell which station the train is currently at or which station is it travelling to) as
 well as other data (platform, expected arrival time, delay information, cancellation information, etc).
 
 <img src="http://i.imgur.com/dgZZOiu.jpg" width="360"> <img src="http://i.imgur.com/U9zk8hz.png" width="360">
