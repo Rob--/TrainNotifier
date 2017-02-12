@@ -19,13 +19,29 @@ import static android.content.Context.ALARM_SERVICE;
 
 public class NotificationReceiver extends WakefulBroadcastReceiver {
 
+    /**
+     * This is called whenever polling is setup for a journey (the AlarmManager broadcasts
+     * an event that is received here). Whenever the device reboots a broadcast is emitted
+     * and is received here where the AlarmManagers are initiated.
+     * @param context
+     * @param intent
+     */
     @Override
     public void onReceive(final Context context, Intent intent){
-        Intent serviceIntent = new Intent(context, NotificationService.class);
-        serviceIntent.putExtra("journey", intent.getStringExtra("journey"));
-        serviceIntent.putExtra("dismiss", intent.getBooleanExtra("dismiss", false));
+        /* intent.getAction() may return null, so reversing the check process will not throw
+           errors if if it's null */
+        if(Intent.ACTION_BOOT_COMPLETED.equals(intent.getAction())){
+            Journey[] journeys = Utils.getAllJourneys(context);
+            for(int i = 0; i < journeys.length; i++){
+                NotificationReceiver.setupPolling(journeys[i], context);
+            }
+        } else {
+            Intent serviceIntent = new Intent(context, NotificationService.class);
+            serviceIntent.putExtra("journey", intent.getStringExtra("journey"));
+            serviceIntent.putExtra("dismiss", intent.getBooleanExtra("dismiss", false));
 
-        startWakefulService(context, serviceIntent);
+            startWakefulService(context, serviceIntent);
+        }
     }
 
     /**
@@ -48,7 +64,7 @@ public class NotificationReceiver extends WakefulBroadcastReceiver {
             Calendar c = Calendar.getInstance();
             c.setTime(departTime);
             /* remove 30 minutes from the time */
-            c.add(Calendar.MINUTE, -15);
+            c.add(Calendar.MINUTE, -10);
 
             AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
             alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, c.getTimeInMillis(), AlarmManager.INTERVAL_DAY, pendingIntent);

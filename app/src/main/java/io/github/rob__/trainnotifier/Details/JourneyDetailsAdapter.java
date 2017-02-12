@@ -226,7 +226,8 @@ public class JourneyDetailsAdapter extends RecyclerView.Adapter<RecyclerView.Vie
         holder.setDeparture(departTime, departStation, departPlatform);
 
         /* set the service provider if the transport mode is a train, else set it to "Walk" */
-        holder.setCompany(leg.getTransportMode().equals("Train") ? leg.getServiceProviderName() : "Walk");
+        boolean transportModeIsTrain = leg.getTransportMode().equals("Train");
+        holder.setCompany(transportModeIsTrain ? leg.getServiceProviderName() : "Walk");
 
         String bestArriveTime = Utils.getBestArriveTime(leg.getDestination());
         String bestDepartTime = Utils.getBestDepartTime(leg.getOrigin());
@@ -247,8 +248,14 @@ public class JourneyDetailsAdapter extends RecyclerView.Adapter<RecyclerView.Vie
 
         holder.setDuration(bestDepartTime, bestArriveTime);
 
+        /* call this method last as it adjusts all the view's text colours and text content */
+        holder.setCancelled(leg.getIsCancelled());
+
+        /* don't continue if this leg isn't a train, or we have no data */
+        if(transportModeIsTrain || realtimeData == null) return;
+
         /* we don't always have real time data */
-        if(realtimeData != null && realtimeData.get(leg.getTrainId()).getIsRealTimeDataAvailable()){
+        if(realtimeData.get(leg.getTrainId()) != null && realtimeData.get(leg.getTrainId()).getIsRealTimeDataAvailable()){
             List<Stop> stops = realtimeData.get(leg.getTrainId()).getService().getStops();
 
             for(int i = 0; i < stops.size(); i++){
@@ -258,8 +265,12 @@ public class JourneyDetailsAdapter extends RecyclerView.Adapter<RecyclerView.Vie
                 boolean endingStation = stop.getDeparture().getNotApplicable() != null && stop.getDeparture().getNotApplicable();
 
                 String station = Utils.stationFromCode(stop.getLocation().getCrs());
-                boolean arrived = !startingStation && stop.getArrival().getRealTime() != null && stop.getArrival().getRealTime().getRealTimeServiceInfo().getHasArrived();
-                boolean departed = !endingStation && stop.getDeparture().getRealTime() != null && stop.getDeparture().getRealTime().getRealTimeServiceInfo().getHasDeparted();
+
+                /* default arrived to true if we're at the starting station */
+                boolean arrived = startingStation || (stop.getArrival().getRealTime() != null && stop.getArrival().getRealTime().getRealTimeServiceInfo().getHasArrived());
+
+                /* default departed to false if we're at the ending station */
+                boolean departed = endingStation || (stop.getDeparture().getRealTime() != null && stop.getDeparture().getRealTime().getRealTimeServiceInfo().getHasDeparted());
 
                 if(arrived && !departed){
                     Log.d("Currently at", station);
@@ -279,9 +290,6 @@ public class JourneyDetailsAdapter extends RecyclerView.Adapter<RecyclerView.Vie
                 }
             }
         }
-
-        /* call this method last as it adjusts all the view's text colours and text content */
-        holder.setCancelled(leg.getIsCancelled());
     }
 
     private boolean isChange(int position){

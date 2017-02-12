@@ -134,7 +134,7 @@ public class SearchFragment extends Fragment implements SearchView, CustomListen
 
     @Override
     public void showRecentSearches(String[][] recentSearches){
-                /* if there are no recent searches, manipulate the layout to show the text view
+        /* if there are no recent searches, manipulate the layout to show the text view
            stating there are no recent searches instead of showing an empty recycler view */
         if(Utils.isRecentSearchesEmpty(getContext())){
             tvNoRecentSearches.setVisibility(View.VISIBLE);

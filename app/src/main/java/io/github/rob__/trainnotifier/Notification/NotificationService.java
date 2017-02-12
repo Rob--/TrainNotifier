@@ -215,7 +215,10 @@ public class NotificationService extends Service{
         Intent detailsIntent = new Intent(getApplicationContext(), JourneyActivity.class);
         detailsIntent.putExtra("journey", Utils.toJson(journey));
 
-        PendingIntent detailsPending = PendingIntent.getActivity(getApplicationContext(), 0, detailsIntent, Intent.FLAG_ACTIVITY_NEW_TASK);
+        /* dummy action is necessary to stop extras being dropped: http://stackoverflow.com/a/3168653/5631268 */
+        detailsIntent.setAction(Long.toString(System.currentTimeMillis()));
+
+        PendingIntent detailsPending = PendingIntent.getActivity(getApplicationContext(), 0, detailsIntent, PendingIntent.FLAG_UPDATE_CURRENT);
         builder.setContentIntent(detailsPending);
 
         /* if the last stored version of our notification text is null it means we haven't saved it

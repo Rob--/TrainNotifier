@@ -40,8 +40,12 @@ class JourneyPresenter {
 
             /* probably not best practice, but due to callbacks I check whether all the real
                time data has been collected by comparing the number of legs to the number of real
-               time data received - so I need to add null to use this logic */
-            if(trainId.isEmpty()) realtimeData.add(null);
+               time data received - so I need to add null to use this logic
+               we also need to check if the transport mode is walk, if it is trainid will be null */
+            if(leg.getTransportMode().equals("Walk") || trainId.isEmpty()){
+                realtimeData.add(null);
+                continue;
+            }
 
             api.getRealtimeData(trainId, new CustomListeners.RealtimeCallback() {
                 @Override

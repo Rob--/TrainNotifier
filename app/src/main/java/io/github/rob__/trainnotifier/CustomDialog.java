@@ -61,12 +61,12 @@ public class CustomDialog {
 
         List<Leg> legs = journey.getLegs();
 
-        String arriveTime = Utils.getFormattedTime(journey.getArrivalDateTime());
+        String arriveTime = Utils.getFormattedTime(legs.get(legs.size() - 1).getDestination().getScheduledTime());
         String arriveStation = journey.getDestination();
         String arrivePlatform = legs.get(legs.size() - 1).getDestination().getPlatform();
         setArrival(arriveTime, arriveStation, arrivePlatform);
 
-        String departTime = Utils.getFormattedTime(journey.getDepartureDateTime());
+        String departTime = Utils.getFormattedTime(legs.get(0).getOrigin().getScheduledTime());
         String departStation = journey.getOrigin();
         String departPlatform = legs.get(0).getOrigin().getPlatform();
         setDeparture(departTime, departStation, departPlatform);
