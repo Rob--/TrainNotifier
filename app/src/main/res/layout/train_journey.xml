@@ -1,122 +1,122 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-android:layout_width="match_parent"
-android:layout_height="wrap_content"
-android:layout_margin="10dp">
-
-<TextView
-    android:text="22:31"
-    android:layout_width="wrap_content"
+    android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:id="@+id/tvDepartTime"
-    android:textColor="@color/grayDark"
-    android:textSize="24sp"
-    android:textStyle="bold"
-    android:paddingRight="@dimen/spacingMedium"
-    android:layout_alignParentTop="true" />
+    android:layout_margin="10dp">
 
-<ImageView
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:id="@+id/ivArrow"
-    android:paddingLeft="@dimen/spacingLarge"
-    android:paddingRight="@dimen/spacingSmall"
-    android:src="@drawable/ic_keyboard_backspace_48px"
-    android:rotation="180"
-    android:scaleType="centerCrop"
-    android:cropToPadding="false"
-    android:adjustViewBounds="false"
-    android:layout_alignParentTop="true"
-    android:layout_toEndOf="@+id/tvDepartTime"
-    android:layout_alignBottom="@+id/tvDepartTime" />
+    <TextView
+        android:text="22:31"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/tvDepartTime"
+        android:textColor="@color/grayDark"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        android:paddingRight="@dimen/spacingMedium"
+        android:layout_alignParentTop="true" />
 
-<TextView
-    android:text="22:31"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:id="@+id/tvArriveTime"
-    android:textColor="@color/grayDark"
-    android:textSize="24sp"
-    android:textStyle="bold"
-    android:paddingRight="15sp"
-    android:layout_alignParentTop="true"
-    android:layout_toEndOf="@+id/ivArrow" />
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/ivArrow"
+        android:paddingLeft="@dimen/spacingLarge"
+        android:paddingRight="@dimen/spacingSmall"
+        android:src="@drawable/ic_keyboard_backspace_48px"
+        android:rotation="180"
+        android:scaleType="centerCrop"
+        android:cropToPadding="false"
+        android:adjustViewBounds="false"
+        android:layout_alignParentTop="true"
+        android:layout_toEndOf="@+id/tvDepartTime"
+        android:layout_alignBottom="@+id/tvDepartTime" />
 
-<TextView
-    android:text="Plat.2"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:id="@+id/tvDepartPlatform"
-    android:textColor="@color/grayLight"
-    android:layout_below="@+id/tvDepartStation"
-    android:layout_alignParentStart="true"
-    android:textAllCaps="false" />
+    <TextView
+        android:text="22:31"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/tvArriveTime"
+        android:textColor="@color/grayDark"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        android:paddingRight="15sp"
+        android:layout_alignParentTop="true"
+        android:layout_toEndOf="@+id/ivArrow" />
 
-<TextView
-    android:text="FNN"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:id="@+id/tvArriveStation"
-    android:textColor="@color/grayLight"
-    android:layout_below="@+id/ivArrow"
-    android:layout_toEndOf="@+id/ivArrow"
-    android:textStyle="normal|bold" />
+    <TextView
+        android:text="Plat.2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/tvDepartPlatform"
+        android:textColor="@color/grayLight"
+        android:layout_below="@+id/tvDepartStation"
+        android:layout_alignParentStart="true"
+        android:textAllCaps="false" />
 
-<TextView
-    android:text="Plat.1"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:id="@+id/tvArrivePlatform"
-    android:textColor="@color/grayLight"
-    android:layout_above="@+id/tvRoute"
-    android:layout_alignStart="@+id/tvArriveStation" />
+    <TextView
+        android:text="FNN"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/tvArriveStation"
+        android:textColor="@color/grayLight"
+        android:layout_below="@+id/ivArrow"
+        android:layout_toEndOf="@+id/ivArrow"
+        android:textStyle="normal|bold" />
 
-<TextView
-    android:paddingTop="@dimen/spacingSmall"
-    android:text="Bracknell to Reading Station"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:id="@+id/tvRoute"
-    android:textColor="@color/grayLight"
-    android:layout_below="@+id/tvDepartPlatform"
-    android:layout_alignParentStart="true"
-    android:layout_alignParentEnd="true" />
+    <TextView
+        android:text="Plat.1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/tvArrivePlatform"
+        android:textColor="@color/grayLight"
+        android:layout_above="@+id/tvRoute"
+        android:layout_alignStart="@+id/tvArriveStation" />
 
-<TextView
-    android:text="BCE"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:id="@+id/tvDepartStation"
-    android:textColor="@color/grayLight"
-    android:layout_below="@+id/tvDepartTime"
-    android:layout_alignParentStart="true"
-    android:textStyle="normal|bold" />
+    <TextView
+        android:paddingTop="@dimen/spacingSmall"
+        android:text="Bracknell to Reading Station"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/tvRoute"
+        android:textColor="@color/grayLight"
+        android:layout_below="@+id/tvDepartPlatform"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentEnd="true" />
 
-<TextView
-    android:text="1 change"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:id="@+id/tvChanges"
-    android:textColor="@color/grayLight"
-    android:layout_alignBaseline="@+id/tvRoute"
-    android:layout_alignBottom="@+id/tvRoute"
-    android:layout_alignParentEnd="true" />
+    <TextView
+        android:text="BCE"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/tvDepartStation"
+        android:textColor="@color/grayLight"
+        android:layout_below="@+id/tvDepartTime"
+        android:layout_alignParentStart="true"
+        android:textStyle="normal|bold" />
 
-<ImageView
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:src="@drawable/ic_clear_black_48px"
-    android:layout_alignParentTop="true"
-    android:layout_alignParentEnd="true"
-    android:id="@+id/ivDelete" />
+    <TextView
+        android:text="1 change"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/tvChanges"
+        android:textColor="@color/grayLight"
+        android:layout_alignBaseline="@+id/tvRoute"
+        android:layout_alignBottom="@+id/tvRoute"
+        android:layout_alignParentEnd="true" />
 
-<TextView
-    android:text="1hr 15m"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:id="@+id/tvDuration"
-    android:textColor="@color/grayLight"
-    android:layout_above="@+id/tvChanges"
-    android:layout_alignParentEnd="true" />
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_clear_black_48px"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:id="@+id/ivDelete" />
+
+    <TextView
+        android:text="1hr 15m"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/tvDuration"
+        android:textColor="@color/grayLight"
+        android:layout_above="@+id/tvChanges"
+        android:layout_alignParentEnd="true" />
 </RelativeLayout>

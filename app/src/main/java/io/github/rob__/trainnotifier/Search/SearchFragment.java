@@ -181,10 +181,11 @@ public class SearchFragment extends Fragment implements SearchView, CustomListen
     public void journeyClicked(final Journey journey, int position){
         final CustomDialog customDialog = new CustomDialog(getActivity(), R.string.pollQuestion);
 
-        customDialog.updateViews(journey);
+        customDialog.updateViews(journey, true);
         customDialog.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                journey.setAdditionalProperty("pollTime", customDialog.getPollingTime());
                 Utils.saveJourney(journey, getContext());
                 if(trainSavedListener != null) trainSavedListener.trainSaved();
                 customDialog.cancel();

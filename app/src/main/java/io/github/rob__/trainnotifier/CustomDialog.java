@@ -5,6 +5,7 @@ import android.support.v7.app.AlertDialog;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.SeekBar;
 import android.widget.TextView;
 
 import java.util.List;
@@ -26,14 +27,18 @@ public class CustomDialog {
     @BindView(R.id.tvRoute) public TextView tvRoute;
     @BindView(R.id.tvChanges) public TextView tvChanges;
     @BindView(R.id.tvDuration) public TextView tvDuration;
+
+    /* following three are made invisible depending on the context of the usage */
     @BindView(R.id.ivDelete) public ImageView ivDelete;
+    @BindView(R.id.tvPollTime) public TextView tvPollTime;
+    @BindView(R.id.sbPollTime) public SeekBar sbPollTime;
 
     private AlertDialog dialog;
     private final AlertDialog.Builder builder;
     private final FragmentActivity context;
     private View view;
 
-    public CustomDialog(FragmentActivity context, int title){
+    public CustomDialog(final FragmentActivity context, int title){
         this.context = context;
         this.builder = new AlertDialog.Builder(context);
         this.builder.setTitle(context.getString(title));
@@ -53,11 +58,28 @@ public class CustomDialog {
         btnConfirm.setOnClickListener(listener);
     }
 
-    public void updateViews(Journey journey){
+    public int getPollingTime(){
+        return sbPollTime.getProgress();
+    }
+
+    public void updateViews(Journey journey, boolean showPollingOptions){
         view = context.getLayoutInflater().inflate(R.layout.confirm_dialog, null);
         builder.setView(view);
 
         ButterKnife.bind(this, view);
+
+        this.sbPollTime.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                int minutes = progress * 5;
+                tvPollTime.setText(context.getResources().getQuantityString(R.plurals.polling, minutes, minutes));
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {}
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {}
+        });
 
         List<Leg> legs = journey.getLegs();
 
@@ -83,6 +105,7 @@ public class CustomDialog {
            includes the image view for the delete icon (used only when showing saved journeys)
            and we don't want to show it when asking the user if they want to poll the train */
         displayDeleteIcon(false);
+        displayPollingOptions(showPollingOptions);
     }
 
     private void setArrival(String time, String station, String platform){
@@ -123,7 +146,14 @@ public class CustomDialog {
         }
     }
 
-    private void displayDeleteIcon(boolean display){
-        if(!display) ivDelete.setVisibility(View.GONE);
+    private void displayDeleteIcon(boolean display) {
+        if (!display) ivDelete.setVisibility(View.GONE);
+    }
+
+    private void displayPollingOptions(boolean display) {
+        if(!display){
+            tvPollTime.setVisibility(View.GONE);
+            sbPollTime.setVisibility(View.GONE);
+        }
     }
 }

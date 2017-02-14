@@ -13,7 +13,30 @@
         android:layout_width="97dp"
         android:layout_height="wrap_content"
         android:id="@+id/btnConfirm"
-        android:layout_below="@+id/includeTrainRow"
+        android:layout_below="@+id/sbPollTime"
         android:layout_alignParentEnd="true" />
+
+    <TextView
+        android:text="Poll 15 minutes before departure"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/tvPollTime"
+        android:layout_marginLeft="@dimen/spacingSmallish"
+        android:layout_below="@+id/includeTrainRow"
+        android:layout_alignParentStart="true"
+        android:textSize="16sp"
+        android:layout_alignParentEnd="true"
+        android:padding="@dimen/spacingSmall" />
+
+    <SeekBar
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/sbPollTime"
+        android:layout_below="@+id/tvPollTime"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentEnd="true"
+        android:padding="@dimen/spacingSmall"
+        android:max="24"
+        android:progress="3" />
 
 </RelativeLayout>

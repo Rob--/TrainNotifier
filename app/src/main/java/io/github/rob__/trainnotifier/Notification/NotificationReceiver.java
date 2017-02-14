@@ -13,6 +13,7 @@ import java.util.Calendar;
 import java.util.Date;
 
 import io.github.rob__.trainnotifier.API.Models.Mobile.Journey;
+import io.github.rob__.trainnotifier.R;
 import io.github.rob__.trainnotifier.Utils.Utils;
 
 import static android.content.Context.ALARM_SERVICE;
@@ -63,8 +64,9 @@ public class NotificationReceiver extends WakefulBroadcastReceiver {
             Date departTime = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss").parse(journey.getLegs().get(0).getOrigin().getScheduledTime());
             Calendar c = Calendar.getInstance();
             c.setTime(departTime);
-            /* remove 30 minutes from the time */
-            c.add(Calendar.MINUTE, -10);
+
+            int pollingMultiple = (int) journey.getAdditionalProperties().get("pollTime");
+            c.add(Calendar.MINUTE, -(pollingMultiple * 5));
 
             AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
             alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, c.getTimeInMillis(), AlarmManager.INTERVAL_DAY, pendingIntent);

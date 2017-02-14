@@ -1,6 +1,7 @@
 package io.github.rob__.trainnotifier.Trains;
 
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -62,7 +63,7 @@ public class TrainsFragment extends Fragment implements TrainsView, CustomListen
     @Override
     public void journeyClicked(final Journey journey, final int position){
         final CustomDialog customDialog = new CustomDialog(getActivity(), R.string.removeQuestion);
-        customDialog.updateViews(journey);
+        customDialog.updateViews(journey, false);
 
         customDialog.setOnClickListener(new View.OnClickListener() {
             @Override

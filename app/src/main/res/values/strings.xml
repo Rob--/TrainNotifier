@@ -26,4 +26,9 @@
         <item quantity="one">%1$d change</item>
         <item quantity="other">%1$d changes</item>
     </plurals>
+
+    <plurals name="polling">
+        <item quantity="one">Poll %1$d minute before departure</item>
+        <item quantity="other">Poll %1$d minutes before departure</item>
+    </plurals>
 </resources>
