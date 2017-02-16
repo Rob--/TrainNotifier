@@ -17,11 +17,11 @@
     <string name="pollQuestion">Poll this train?</string>
     <string name="removeQuestion">Remove this train?</string>
     <string name="changeAt">Change at %1$s</string>
+    <string name="poll">Poll at %1$s</string>
 
     <string name="requestSuccess">API call to %1$s successful!</string>
     <string name="requestFail">API call to %1$s failed!</string>
     <string name="endpointJourneys">getJourneys (/mobile/journeys)</string>
-
     <plurals name="changes">
         <item quantity="one">%1$d change</item>
         <item quantity="other">%1$d changes</item>

@@ -2,6 +2,7 @@ package io.github.rob__.trainnotifier.Trains;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,7 +10,11 @@ import android.view.animation.DecelerateInterpolator;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import butterknife.BindView;
@@ -50,6 +55,7 @@ public class TrainJourneyAdapter extends RecyclerView.Adapter<TrainJourneyAdapte
         @BindView(R.id.tvChanges) public TextView tvChanges;
         @BindView(R.id.tvDuration) public TextView tvDuration;
         @BindView(R.id.ivDelete) public ImageView ivDelete;
+        @BindView(R.id.tvPollAt) public TextView tvPollAt;
 
         /* register an on click listener for the delete icon */
         @OnClick(R.id.ivDelete) void submit(){
@@ -125,6 +131,25 @@ public class TrainJourneyAdapter extends RecyclerView.Adapter<TrainJourneyAdapte
                     .setDuration(alreadyAnimated ? 0 : 500)
                     .setStartDelay(alreadyAnimated ? 0 : (100 * position)).start();
         }
+
+        public void displayPollTime(boolean display){
+            if(!display) tvPollAt.setVisibility(View.GONE);
+        }
+
+        public void setPollAtTime(String departure, int minutes){
+            try {
+                Date departTime = new SimpleDateFormat("HH:mm").parse(departure);
+                Calendar c = Calendar.getInstance();
+                c.setTime(departTime);
+                c.add(Calendar.MINUTE, -minutes);
+
+                String time = new SimpleDateFormat("HH:mm").format(c.getTime());
+                tvPollAt.setText(context.getString(R.string.poll, time));
+            } catch(ParseException e){
+                displayPollTime(false);
+                return;
+            }
+        }
     }
 
     public TrainJourneyAdapter(Journey[] journeys, int adapterContext, Context context, CustomListeners.JourneyClickListener clickListener) {
@@ -158,6 +183,14 @@ public class TrainJourneyAdapter extends RecyclerView.Adapter<TrainJourneyAdapte
         String departPlatform = legs.get(0).getOrigin().getPlatform();
         String departStation = journey.getOrigin();
         holder.setDeparture(departTime, departStation, departPlatform);
+
+        if(adapterContext == SAVED_JOURNEY_ADAPTER){
+            holder.displayPollTime(true);
+            double pollingTime = (double) journey.getAdditionalProperties().get("pollTime");
+            holder.setPollAtTime(departTime, (int) pollingTime);
+        } else {
+            holder.displayPollTime(false);
+        }
 
         String destinationCode = legs.get(0).getDestination().getStationCode();
         holder.setRoute(Utils.stationFromCode(destinationCode));

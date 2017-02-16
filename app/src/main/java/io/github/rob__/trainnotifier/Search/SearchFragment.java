@@ -179,7 +179,7 @@ public class SearchFragment extends Fragment implements SearchView, CustomListen
 
     @Override
     public void journeyClicked(final Journey journey, int position){
-        final CustomDialog customDialog = new CustomDialog(getActivity(), R.string.pollQuestion);
+        final CustomDialog customDialog = new CustomDialog(getActivity(), R.string.pollQuestion, CustomDialog.SEARCH_RESULT_DIALOG);
 
         customDialog.updateViews(journey, true);
         customDialog.setOnClickListener(new View.OnClickListener() {

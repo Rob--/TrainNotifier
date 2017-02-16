@@ -65,8 +65,8 @@ public class NotificationReceiver extends WakefulBroadcastReceiver {
             Calendar c = Calendar.getInstance();
             c.setTime(departTime);
 
-            int pollingMultiple = (int) journey.getAdditionalProperties().get("pollTime");
-            c.add(Calendar.MINUTE, -(pollingMultiple * 5));
+            int pollingTime = (int) journey.getAdditionalProperties().get("pollTime");
+            c.add(Calendar.MINUTE, -pollingTime);
 
             AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
             alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, c.getTimeInMillis(), AlarmManager.INTERVAL_DAY, pendingIntent);

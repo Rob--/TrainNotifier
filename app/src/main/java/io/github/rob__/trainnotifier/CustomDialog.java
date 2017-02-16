@@ -8,6 +8,10 @@ import android.widget.ImageView;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import butterknife.BindView;
@@ -16,7 +20,12 @@ import io.github.rob__.trainnotifier.API.Models.Mobile.Journey;
 import io.github.rob__.trainnotifier.API.Models.Mobile.Leg;
 import io.github.rob__.trainnotifier.Utils.Utils;
 
+import static io.github.rob__.trainnotifier.Trains.TrainJourneyAdapter.SAVED_JOURNEY_ADAPTER;
+
 public class CustomDialog {
+
+    public static final int SAVED_JOURNEY_DIALOG = 0;
+    public static final int SEARCH_RESULT_DIALOG = 1;
 
     @BindView(R.id.tvArriveTime) public TextView tvArriveTime;
     @BindView(R.id.tvArrivePlatform) public TextView tvArrivePlatform;
@@ -32,16 +41,19 @@ public class CustomDialog {
     @BindView(R.id.ivDelete) public ImageView ivDelete;
     @BindView(R.id.tvPollTime) public TextView tvPollTime;
     @BindView(R.id.sbPollTime) public SeekBar sbPollTime;
+    @BindView(R.id.tvPollAt) public TextView tvPollAt;
 
     private AlertDialog dialog;
     private final AlertDialog.Builder builder;
     private final FragmentActivity context;
     private View view;
+    private int adapterContext;
 
-    public CustomDialog(final FragmentActivity context, int title){
+    public CustomDialog(final FragmentActivity context, int title, int adapterContext){
         this.context = context;
         this.builder = new AlertDialog.Builder(context);
         this.builder.setTitle(context.getString(title));
+        this.adapterContext = adapterContext;
     }
 
     public void display(){
@@ -59,7 +71,7 @@ public class CustomDialog {
     }
 
     public int getPollingTime(){
-        return sbPollTime.getProgress();
+        return (sbPollTime.getProgress() + 1) * 5;
     }
 
     public void updateViews(Journey journey, boolean showPollingOptions){
@@ -71,7 +83,9 @@ public class CustomDialog {
         this.sbPollTime.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                int minutes = progress * 5;
+                /* decreased max by 1, add it back here - this means that our minimum time
+                   to choose from is 5 minutes */
+                int minutes = (progress + 1) * 5;
                 tvPollTime.setText(context.getResources().getQuantityString(R.plurals.polling, minutes, minutes));
             }
 
@@ -97,6 +111,14 @@ public class CustomDialog {
         setRoute(Utils.stationFromCode(destinationCode));
 
         setDuration(journey.getDepartureDateTime(), journey.getArrivalDateTime());
+
+        if(adapterContext == SAVED_JOURNEY_DIALOG){
+            displayPollTime(true);
+            double pollingTime = (double) journey.getAdditionalProperties().get("pollTime");
+            setPollAtTime(departTime, (int) pollingTime);
+        } else {
+            displayPollTime(false);
+        }
 
         int changes = journey.getLegs().size() - 1;
         setChanges(changes);
@@ -154,6 +176,25 @@ public class CustomDialog {
         if(!display){
             tvPollTime.setVisibility(View.GONE);
             sbPollTime.setVisibility(View.GONE);
+        }
+    }
+
+    public void displayPollTime(boolean display){
+        if(!display) tvPollAt.setVisibility(View.GONE);
+    }
+
+    public void setPollAtTime(String departure, int minutes){
+        try {
+            Date departTime = new SimpleDateFormat("HH:mm").parse(departure);
+            Calendar c = Calendar.getInstance();
+            c.setTime(departTime);
+            c.add(Calendar.MINUTE, -minutes);
+
+            String time = new SimpleDateFormat("HH:mm").format(c.getTime());
+            tvPollAt.setText(context.getString(R.string.poll, time));
+        } catch(ParseException e){
+            displayPollTime(false);
+            return;
         }
     }
 }

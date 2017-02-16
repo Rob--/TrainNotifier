@@ -62,7 +62,7 @@ public class TrainsFragment extends Fragment implements TrainsView, CustomListen
 
     @Override
     public void journeyClicked(final Journey journey, final int position){
-        final CustomDialog customDialog = new CustomDialog(getActivity(), R.string.removeQuestion);
+        final CustomDialog customDialog = new CustomDialog(getActivity(), R.string.removeQuestion, CustomDialog.SAVED_JOURNEY_DIALOG);
         customDialog.updateViews(journey, false);
 
         customDialog.setOnClickListener(new View.OnClickListener() {
